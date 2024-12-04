@@ -9,5 +9,10 @@
 		<string>PTSans-Italic.ttf</string>
 		<string>PTSans-BoldItalic.ttf</string>
 	</array>
+	<key>UILaunchScreen</key>
+	<dict>
+		<key>UIColorName</key>
+		<string>Background/primary</string>
+	</dict>
 </dict>
 </plist>

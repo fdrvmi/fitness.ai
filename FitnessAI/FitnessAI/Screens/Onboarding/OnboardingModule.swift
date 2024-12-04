@@ -38,9 +38,14 @@ struct OnboardingModule: View {
         .padding(.horizontal, 16.0)
         .multilineTextAlignment(.center)
         .withAppBackground()
-        .navigationDestination(for: String.self) { view in
-            if view == "sign-in" {
+        .navigationDestination(for: OnboardingScreens.self) { view in
+            switch view {
+            case .onboarding:
+                OnboardingModule()
+            case .signIn:
                 SignInModule()
+            case .signUp:
+                SignUpModule()
             }
         }
     }
@@ -68,14 +73,14 @@ struct OnboardingModule: View {
             MButton(
                 title: Text("onboarding.signin")
             ) {
-                navigation?.path.append("sign-in")
+                navigation?.path.append(OnboardingScreens.signIn)
             }
 
             MButton(
                 title: Text("onboarding.signup"),
                 type: .primary
             ) {
-
+                navigation?.path.append(OnboardingScreens.signUp)
             }
         }
     }

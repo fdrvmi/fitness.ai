@@ -8,13 +8,13 @@
 import Foundation
 
 @Observable
-final class SignUpModeBuilder {
+final class SignUpModelBuilder {
 
-    var name: String?
+    var name: String = ""
     var weight: Double?
     var height: Double?
-    var email: String?
-    var password: String?
+    var email: String = ""
+    var password: String = ""
 
-    var confirmPassword: String?
+    var confirmPassword: String = ""
 }
