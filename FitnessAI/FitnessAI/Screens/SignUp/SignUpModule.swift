@@ -10,7 +10,7 @@ import SwiftUI
 struct SignUpModule: View {
 
     @State
-    private var signUpInfoBuilder = SignUpModelBuilder()
+    private var signUpViewModel = SignUpViewModel()
 
     @Environment(ContentNavigation.self) var navigation: ContentNavigation?
 
@@ -21,6 +21,12 @@ struct SignUpModule: View {
                 step: 1
             )
         }
+        .animation(.easeIn, value: signUpViewModel.nameError)
+        .animation(.easeIn, value: signUpViewModel.emailError)
+        .animation(.easeIn, value: signUpViewModel.weightError)
+        .animation(.easeIn, value: signUpViewModel.heightError)
+        .animation(.easeIn, value: signUpViewModel.passwordError)
+        .animation(.easeIn, value: signUpViewModel.confirmPasswordError)
         .withAppBackground()
         .navigationDestination(for: SignUpFlowScreens.self) { view in
             switch view {
@@ -41,104 +47,158 @@ struct SignUpModule: View {
                 )
             }
         }
+        .overlay {
+            if signUpViewModel.showLoader {
+                Color.black
+                    .ignoresSafeArea()
+                    .opacity(0.5)
+                    .overlay {
+                        ProgressView()
+                            .tint(.white)
+                    }
+            }
+        }
     }
 
     private var nameCard: some View {
-        SignUpCard {
-            VStack(spacing: 16.0) {
-                Text("signup.name.title")
-                    .font(.h2)
-                    .foregroundStyle(Color.Text.primaryWhite)
-                    .multilineTextAlignment(.center)
+        VStack {
+            SignUpCard {
+                VStack(spacing: 16.0) {
+                    Text("signup.name.title")
+                        .font(.h2)
+                        .foregroundStyle(Color.Text.primaryWhite)
+                        .multilineTextAlignment(.center)
 
-                MInput(
-                    value: $signUpInfoBuilder.name,
-                    placeholder: "signup.name.input.placeholder".localized
-                )
+                    MInput(
+                        value: $signUpViewModel.name,
+                        placeholder: "signup.name.input.placeholder".localized
+                    )
 
-                MButton(
-                    title: Text("signup.name.button.title"),
-                    icon: Image(.Icon.arrow)
-                ) {
-                    navigation?.path.append(SignUpFlowScreens.step2)
+                    MButton(
+                        title: Text("signup.name.button.title"),
+                        icon: Image(.Icon.arrow)
+                    ) {
+                        if signUpViewModel.step1Next() {
+                            navigation?.path.append(SignUpFlowScreens.step2)
+                        }
+                    }
                 }
             }
+
+            if let error = signUpViewModel.nameError {
+                MError(message: error)
+            }
         }
+        .autocorrectionDisabled()
+        .textInputAutocapitalization(.never)
     }
 
     private var paramsView: some View {
-        SignUpCard {
-            VStack(spacing: 16.0) {
-                Text("signup.params.title")
-                    .font(.h2)
-                    .foregroundStyle(Color.Text.primaryWhite)
-                    .multilineTextAlignment(.center)
-                    .padding(.bottom, 8.0)
+        VStack {
+            SignUpCard {
+                VStack(spacing: 16.0) {
+                    Text("signup.params.title")
+                        .font(.h2)
+                        .foregroundStyle(Color.Text.primaryWhite)
+                        .multilineTextAlignment(.center)
+                        .padding(.bottom, 8.0)
 
-                HStack(spacing: 16.0) {
-                    MInput(
-                        value: Binding {
-                            signUpInfoBuilder.weight.map { String($0) } ?? ""
-                        } set: { newValue in
-                            guard let value = Double(newValue) else { return }
-                            signUpInfoBuilder.weight = value
-                        },
-                        placeholder: "signup.params.weight.input.placeholder".localized
-                    )
+                    HStack(spacing: 16.0) {
+                        MInput(
+                            value: Binding {
+                                signUpViewModel.weight.map { String($0) } ?? ""
+                            } set: { newValue in
+                                guard let value = Double(newValue) else { return }
+                                signUpViewModel.weight = value
+                            },
+                            placeholder: "signup.params.weight.input.placeholder".localized
+                        )
+                        .keyboardType(.numberPad)
 
-                    MInput(
-                        value: Binding {
-                            signUpInfoBuilder.height.map { String($0) } ?? ""
-                        } set: { newValue in
-                            guard let value = Double(newValue) else { return }
-                            signUpInfoBuilder.height = value
-                        },
-                        placeholder: "signup.params.height.input.placeholder".localized
-                    )
-                }
+                        MInput(
+                            value: Binding {
+                                signUpViewModel.height.map { String($0) } ?? ""
+                            } set: { newValue in
+                                guard let value = Double(newValue) else { return }
+                                signUpViewModel.height = value
+                            },
+                            placeholder: "signup.params.height.input.placeholder".localized
+                        )
+                        .keyboardType(.numberPad)
+                    }
 
-                MButton(
-                    title: Text("signup.params.button.titlen"),
-                    icon: Image(.Icon.arrow)
-                ) {
-                    navigation?.path.append(SignUpFlowScreens.step3)
+                    MButton(
+                        title: Text("signup.params.button.titlen"),
+                        icon: Image(.Icon.arrow)
+                    ) {
+                        if signUpViewModel.step2Next() {
+                            navigation?.path.append(SignUpFlowScreens.step3)
+                        }
+                    }
                 }
             }
+
+            if let error = signUpViewModel.weightError {
+                MError(message: error)
+            }
+
+            if let error = signUpViewModel.heightError {
+                MError(message: error)
+            }
         }
+        .autocorrectionDisabled()
+        .textInputAutocapitalization(.never)
     }
 
     private var finalView: some View {
-        SignUpCard {
-            VStack(spacing: 16.0) {
-                Text("signup.final.title")
-                    .font(.h2)
-                    .foregroundStyle(Color.Text.primaryWhite)
-                    .padding(.bottom, 8.0)
-                    .multilineTextAlignment(.center)
+        VStack {
+            SignUpCard {
+                VStack(spacing: 16.0) {
+                    Text("signup.final.title")
+                        .font(.h2)
+                        .foregroundStyle(Color.Text.primaryWhite)
+                        .padding(.bottom, 8.0)
+                        .multilineTextAlignment(.center)
 
-                MInput(
-                    value: $signUpInfoBuilder.email,
-                    placeholder: "signup.final.email.placeholder".localized
-                )
+                    MInput(
+                        value: $signUpViewModel.email,
+                        placeholder: "signup.final.email.placeholder".localized
+                    )
+                    .keyboardType(.emailAddress)
 
-                MInput(
-                    value: $signUpInfoBuilder.password,
-                    placeholder: "signup.final.password.placeholder".localized
-                )
+                    MInput(
+                        value: $signUpViewModel.password,
+                        placeholder: "signup.final.password.placeholder".localized
+                    )
 
-                MInput(
-                    value: $signUpInfoBuilder.confirmPassword,
-                    placeholder: "signup.final.confirmpassword.placeholder".localized
-                )
+                    MInput(
+                        value: $signUpViewModel.confirmPassword,
+                        placeholder: "signup.final.confirmpassword.placeholder".localized
+                    )
 
-                MButton(
-                    title: Text("signup.final.button.title"),
-                    icon: Image(.Icon.check)
-                ) {
-
+                    MButton(
+                        title: Text("signup.final.button.title"),
+                        icon: Image(.Icon.check)
+                    ) {
+                        signUpViewModel.signUp()
+                    }
                 }
             }
+
+            if let error = signUpViewModel.emailError {
+                MError(message: error)
+            }
+
+            if let error = signUpViewModel.passwordError {
+                MError(message: error)
+            }
+
+            if let error = signUpViewModel.confirmPasswordError {
+                MError(message: error)
+            }
         }
+        .autocorrectionDisabled()
+        .textInputAutocapitalization(.never)
     }
 
     private func nextFlow<T: View>(_ view: T, step: Int, of: Int = 3) -> some View {
@@ -150,6 +210,7 @@ struct SignUpModule: View {
 
             view
         }
+        .padding(.horizontal, 16.0)
         .withAppBackground()
         .navigationBarBackButtonHidden()
         .toolbar {
@@ -161,5 +222,7 @@ struct SignUpModule: View {
 }
 
 #Preview {
-    SignUpModule()
+    NavigationStack {
+        SignUpModule()
+    }
 }

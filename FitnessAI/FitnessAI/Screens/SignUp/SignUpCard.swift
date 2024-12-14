@@ -20,6 +20,5 @@ struct SignUpCard<Content: View>: View {
                     .opacity(0.08)
             )
             .clipShape(RoundedRectangle(cornerRadius: 24.0))
-            .padding(.horizontal, 16.0)
     }
 }

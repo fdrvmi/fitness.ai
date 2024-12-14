@@ -91,6 +91,7 @@
 				F552EE162CEE68DF00DE8B39 /* FitnessAI */,
 				F552EE272CEE68E000DE8B39 /* FitnessAITests */,
 				F552EE312CEE68E000DE8B39 /* FitnessAIUITests */,
+				F5A3A4AF2D0DDC7A00A19EA6 /* Frameworks */,
 				F552EE152CEE68DF00DE8B39 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -103,6 +104,13 @@
 				F552EE2E2CEE68E000DE8B39 /* FitnessAIUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		F5A3A4AF2D0DDC7A00A19EA6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -208,6 +216,8 @@
 			);
 			mainGroup = F552EE0B2CEE68DF00DE8B39;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F552EE152CEE68DF00DE8B39 /* Products */;
 			projectDirPath = "";

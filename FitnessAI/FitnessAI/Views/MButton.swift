@@ -30,12 +30,13 @@ struct MButton: View {
 
     var body: some View {
         Button {
-            action()
+            withAnimation(nil) {
+                action()
+            }
         } label: {
             if icon != nil, onlyIcon {
 
-            }
-            else {
+            } else {
                 ZStack {
                     HStack {
                         Spacer()
@@ -68,6 +69,7 @@ struct MButton: View {
                 .clipShape(RoundedRectangle(cornerRadius: 50))
             }
         }
+        .buttonStyle(.plain)
     }
 
     private var backgroundColor: Color {
