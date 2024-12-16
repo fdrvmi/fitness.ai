@@ -77,7 +77,8 @@ extension Route {
                 path: route.path,
                 method: route.method,
                 queryParameters: route.queryParameters,
-                headers: headers
+                headers: headers,
+                body: route.body
             )
         )
     }
@@ -155,11 +156,7 @@ enum ChatRoutes {
             Route(
                 path: "/chat",
                 method: "POST",
-                body: try? JSONSerialization.data(
-                    withJSONObject: [
-                        "title": title
-                    ]
-                )
+                body: try? JSONEncoder().encode(ChatCreateQuery(title: title))
             )
         )
     }

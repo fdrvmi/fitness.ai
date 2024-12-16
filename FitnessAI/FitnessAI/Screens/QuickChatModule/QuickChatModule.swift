@@ -7,12 +7,18 @@
 
 import SwiftUI
 
+struct QuickChat: Hashable {
+    let message: String
+}
+
 struct QuickChatModule: View {
 
     @State private var viewModel = QuickChatViewModel()
 
+    @State private var contentNavigation = ContentNavigation()
+
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $contentNavigation.path) {
             VStack {
                 contentView
                     .padding(.vertical, 32)
@@ -32,7 +38,11 @@ struct QuickChatModule: View {
                         .foregroundColor(.white)
                 }
             }
+            .navigationDestination(for: QuickChat.self) { chat in
+                ChatModule(initialMessage: chat.message)
+            }
         }
+        .environment(contentNavigation)
     }
 
     private var contentView: some View {
@@ -44,6 +54,13 @@ struct QuickChatModule: View {
             cards
 
             MInput(value: $viewModel.query, placeholder: "Напишите запрос")
+                .onSubmit {
+                    if viewModel.query.count > 10 {
+                        contentNavigation.path.append(QuickChat(message: viewModel.query))
+                    }
+
+                    viewModel.query = ""
+                }
         }
     }
 
@@ -94,7 +111,6 @@ struct QuickChatModule: View {
 @Observable
 class QuickChatViewModel {
     var query = ""
-
 }
 
 #Preview {

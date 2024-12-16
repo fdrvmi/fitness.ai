@@ -23,7 +23,7 @@ struct BaseChatService: ChatService {
     func create(title: String) async throws -> ChatCreateResponse {
         let result = try? await applicationRequest(ChatRoutes.createChat(title: title))
 
-        guard let result, let response = result.1 as? HTTPURLResponse, response.statusCode == 200 else {
+        guard let result, let response = result.1 as? HTTPURLResponse, response.statusCode == 201 else {
             throw ApiError(message: "NOT SUCCESS")
         }
 

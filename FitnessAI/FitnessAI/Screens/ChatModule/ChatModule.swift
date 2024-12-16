@@ -39,12 +39,14 @@ struct ChatModule: View {
         .navigationBarTitleDisplayMode(.inline)
         .withAppBackground()
         .task {
-            if let chatID {
-                await viewModel.fetch(id: chatID)
-            }
-
-            if let initialMessage {
-                await viewModel.fetch(init: initialMessage)
+            if viewModel.chat == nil {
+                if let chatID {
+                    await viewModel.fetch(id: chatID)
+                }
+                
+                if let initialMessage {
+                    await viewModel.fetch(init: initialMessage)
+                }
             }
         }
     }
@@ -70,36 +72,34 @@ struct ChatModule: View {
     }
 
     private var messages: some View {
-        ScrollViewReader { proxy in
-            ScrollView {
-                LazyVStack(alignment: .trailing) {
-                    ForEach(viewModel.messages) { message in
-                        let isInvalid = viewModel.sendMessageError && viewModel.messages.last(where: { $0.content == viewModel.lastMessage }) == message
-                        if isInvalid {
-                            Menu {
-                                Button("Повторить") {
-                                    Task {
-                                        await viewModel.sendMessage(message.content)
-                                    }
+        ScrollView {
+            LazyVStack(alignment: .trailing) {
+                ForEach(viewModel.messages) { message in
+                    let isInvalid = viewModel.sendMessageError && viewModel.messages.last(where: { $0.content == viewModel.lastMessage }) == message
+                    if isInvalid {
+                        Menu {
+                            Button("Повторить") {
+                                Task {
+                                    await viewModel.sendMessage(message.content)
                                 }
-                                Button("Удалить") {
-                                    viewModel.messages.removeLast()
-                                }
-                            } label: {
-                                MessageView(message: message, isInvalid: isInvalid)
                             }
-                            .id(message.id)
-
-                        } else {
+                            Button("Удалить") {
+                                viewModel.messages.removeLast()
+                            }
+                        } label: {
                             MessageView(message: message, isInvalid: isInvalid)
-                                .id(message.id)
                         }
+                        .id(message.id)
+
+                    } else {
+                        MessageView(message: message, isInvalid: isInvalid)
+                            .id(message.id)
                     }
                 }
-                .padding(.bottom, 16.0)
             }
-            .defaultScrollAnchor(.bottom)
+            .padding(.bottom, 16.0)
         }
+        .defaultScrollAnchor(.bottom)
     }
 }
 
@@ -122,13 +122,16 @@ class ChatViewModel {
 
 
     func fetch(init message: String) async {
-        let chatID = await createChat(title: String(message.prefix(30)))
+        let chatTitle = String(message.prefix(30))
+        let chatID = await createChat(title: chatTitle)
 
         guard let chatID else {
             return
         }
 
         await fetch(id: chatID)
+
+        await sendMessage(message)
     }
 
     func fetch(id chatID: String) async {

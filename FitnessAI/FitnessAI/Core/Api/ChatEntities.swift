@@ -9,7 +9,7 @@ import Foundation
 
 struct Chat: Codable, Identifiable, Hashable {
     let id: String
-    let title: String
+    let title: String?
     let createdAt: String
     var messages: [Message]
 }
@@ -23,8 +23,12 @@ struct Message: Codable, Hashable, Identifiable {
 
 struct ChatCreateResponse: Codable {
     let id: String
-    let title: String
+    let title: String?
     let createdAt: String
+}
+
+struct ChatCreateQuery: Codable {
+    let title: String
 }
 
 struct ChatListResponse: Codable {

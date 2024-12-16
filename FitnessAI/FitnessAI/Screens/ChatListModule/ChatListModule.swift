@@ -25,7 +25,7 @@ struct ChatListModule: View {
                     List {
                         ForEach(viewModel.chats) { chat in
                             ChatListCell(
-                                title: chat.title,
+                                title: chat.title ?? "AI CHAT",
                                 subtitle: chat.messages.last?.content ?? "Нет сообщений",
                                 time: ""
                             ) {
