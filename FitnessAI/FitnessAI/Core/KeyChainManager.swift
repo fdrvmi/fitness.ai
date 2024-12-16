@@ -53,7 +53,6 @@ struct KeychainManager {
         let status = SecItemCopyMatching(query as CFDictionary, &item)
 
         guard status == errSecSuccess, let data = item as? Data else {
-            print("Failed to load token from Keychain. Status: \(status)")
             return nil
         }
 

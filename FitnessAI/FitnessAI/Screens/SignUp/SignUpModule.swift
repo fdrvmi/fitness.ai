@@ -199,6 +199,9 @@ struct SignUpModule: View {
         }
         .autocorrectionDisabled()
         .textInputAutocapitalization(.never)
+        .onDisappear {
+            signUpViewModel.showLoader = false
+        }
     }
 
     private func nextFlow<T: View>(_ view: T, step: Int, of: Int = 3) -> some View {

@@ -71,6 +71,43 @@ final class SignUpViewModel {
         guard confirmPasswordError == nil else { return }
 
         showLoader = true
-        // TODO Sign up
+
+        Task {
+            await trySignUp()
+        }
+    }
+
+    func trySignUp() async {
+        let route = Route.jsonRoute(
+            AuthRoutes.signUp(
+                username: name,
+                email: email,
+                password: password
+            )
+        )
+
+        let result = try? await request(route)
+
+        guard let result, let data = try? JSONDecoder().decode(User.self, from: result.0) else {
+            emailError = "Something went wrong"
+            return
+        }
+
+        await makeSignIn(email: name, password: password)
+
+        showLoader = false
+    }
+
+    private func makeSignIn(email: String, password: String) async {
+        let result = try? await request(
+            AuthRoutes.login(username: email, password: password)
+        )
+
+        guard let result, let data = try? JSONDecoder().decode(LoginResponse.self, from: result.0) else {
+            emailError = "Something went wrong"
+            return
+        }
+
+        UserManager.shared.handleSignIn(data)
     }
 }

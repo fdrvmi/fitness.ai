@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import OSLog
 
 @Observable
 final class SignInViewModel {
@@ -17,7 +18,7 @@ final class SignInViewModel {
     var passwordError: String?
 
     func signIn() {
-        let emailValidationResult = validate(email, validator: emailValidator(_:))
+        let emailValidationResult = validate(email, validator: validateUsername(_:))
         let passwordValidationResult = validate(password, validator: passwordValidator(_:))
 
         emailError = emailValidationResult.1
@@ -26,6 +27,10 @@ final class SignInViewModel {
         guard emailError == nil, passwordError == nil else {
             return
         }
+
+        Task {
+            await makeSignIn(email: email, password: password)
+        }
     }
 
     func resetErrors() {
@@ -33,8 +38,17 @@ final class SignInViewModel {
         passwordError = nil
     }
 
-    private func makeSignIn() {
+    private func makeSignIn(email: String, password: String) async {
+        let result = try? await request(
+            AuthRoutes.login(username: email, password: password)
+        )
 
+        guard let result, let data = try? JSONDecoder().decode(LoginResponse.self, from: result.0) else {
+            emailError = "Something went wrong"
+            return
+        }
+
+        UserManager.shared.handleSignIn(data)
     }
 }
 

@@ -4,6 +4,9 @@
     "" : {
 
     },
+    "AIChat" : {
+
+    },
     "navbar.back" : {
       "localizations" : {
         "en" : {
@@ -110,6 +113,12 @@
             "state" : "translated",
             "value" : "E-mail"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E-mail"
+          }
         }
       }
     },
@@ -137,6 +146,12 @@
             "state" : "translated",
             "value" : "Пароль"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пароль"
+          }
         }
       }
     },
@@ -144,6 +159,12 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Завершить регистрацию"
+          }
+        },
+        "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Завершить регистрацию"
@@ -159,6 +180,12 @@
             "state" : "translated",
             "value" : "Повторите пароль"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Повторите пароль"
+          }
         }
       }
     },
@@ -166,6 +193,12 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E-mail"
+          }
+        },
+        "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "E-mail"
@@ -181,6 +214,12 @@
             "state" : "translated",
             "value" : "Пароль"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E-mail"
+          }
         }
       }
     },
@@ -192,12 +231,24 @@
             "state" : "translated",
             "value" : "Еще немного информации"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Еще немного информации"
+          }
         }
       }
     },
     "signup.name.button.title" : {
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Далее"
+          }
+        },
+        "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Далее"
@@ -213,6 +264,12 @@
             "state" : "translated",
             "value" : "Имя"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Имя"
+          }
         }
       }
     },
@@ -223,12 +280,24 @@
             "state" : "translated",
             "value" : "Как я могу к\nВам обращаться?"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Как я могу к\nВам обращаться?"
+          }
         }
       }
     },
     "signup.params.button.titlen" : {
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Далее"
+          }
+        },
+        "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Далее"
@@ -244,12 +313,24 @@
             "state" : "translated",
             "value" : "Рост"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Рост"
+          }
         }
       }
     },
     "signup.params.title" : {
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Какие ваши параметры?"
+          }
+        },
+        "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Какие ваши параметры?"
@@ -265,6 +346,25 @@
             "state" : "translated",
             "value" : "Вес"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вес"
+          }
+        }
+      }
+    },
+    "Выйти" : {
+
+    },
+    "Чем я могу Вам помочь? " : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Чем я могу Вам помочь? "
+          }
         }
       }
     },
@@ -273,6 +373,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
+            "value" : "Шаг %1$lld/%2$lld"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "Шаг %1$lld/%2$lld"
           }
         }

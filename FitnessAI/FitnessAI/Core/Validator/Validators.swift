@@ -37,7 +37,7 @@ func passwordValidator(_ password: String) -> (Bool, String?) {
 // MARK: - UserName Validation
 
 func validateUsername(_ username: String) -> (Bool, String?) {
-    let usernameRegex = #/^[a-zA-Z0-9]{3,15}$/#  // Регулярное выражение для имени пользователя
+    let usernameRegex = #/([^\s]+){3,15}$/#  // Регулярное выражение для имени пользователя
     let result = username.wholeMatch(of: usernameRegex) != nil
     return (result, result ? nil : "Username must contain at least 3 characters and no more than 15")
 }
