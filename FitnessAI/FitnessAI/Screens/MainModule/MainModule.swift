@@ -34,8 +34,8 @@ struct MainModule: View {
         .tint(.white)
         .onAppear {
             let appearance = UITabBarAppearance()
-            appearance.backgroundColor = UIColor(hex: "1C1C1C", alpha: 0.9)
-            appearance.backgroundEffect = UIBlurEffect(style: .systemChromeMaterialDark)
+//            appearance.backgroundColor = UIColor(hex: "1C1C1C", alpha: 0.9)
+//            appearance.backgroundEffect = UIBlurEffect(style: .systemChromeMaterialDark)
             appearance.shadowColor = .white.withAlphaComponent(0.5)
             appearance.selectionIndicatorTintColor = .white
 

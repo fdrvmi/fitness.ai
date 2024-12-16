@@ -31,7 +31,7 @@ struct ChatListCell: View {
                     .font(.leadText)
                     .foregroundStyle(Color.Text.primaryWhite)
 
-                Text(subtitle)
+                Text(subtitle.prefix(30))
                     .font(.caption)
                     .foregroundStyle(Color.Text.secondaryWhite)
             }

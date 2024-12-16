@@ -42,6 +42,7 @@ struct Route {
             var request = URLRequest(url: $0)
             request.httpMethod = method
             request.httpBody = body
+            request.timeoutInterval = 120
 
             headers?.forEach { (key: String, value: String) in
                 request.setValue(value, forHTTPHeaderField: key)
@@ -97,14 +98,14 @@ extension Route {
 
 enum AuthRoutes {
 
-    static func login(username: String, password: String) -> Route {
+    static func login(email: String, password: String) -> Route {
         Route.jsonRoute(
             Route(
                 path: "/auth/login",
                 method: "POST",
                 body: try? JSONSerialization.data(
                     withJSONObject: [
-                        "username": username,
+                        "email": email,
                         "password": password
                     ]
                 )
@@ -115,7 +116,9 @@ enum AuthRoutes {
     static func signUp(
         username: String,
         email: String,
-        password: String
+        password: String,
+        weight: Double,
+        height: Double
     ) -> Route {
         Route.jsonRoute(
             Route(
@@ -123,10 +126,11 @@ enum AuthRoutes {
                 method: "POST",
                 body: try? JSONSerialization.data(
                     withJSONObject: [
-                        "username": username,
+                        "fullName": username,
                         "password": password,
                         "email": email,
-                        "fullName": username
+                        "weight": weight,
+                        "height": height
                     ]
                 )
             )
@@ -140,6 +144,60 @@ enum AuthRoutes {
                 method: "GET"
             ),
             accessToken: KeychainManager.shared.loadToken(forKey: .accessToken) ?? ""
+        )
+    }
+}
+
+enum ChatRoutes {
+
+    static func createChat(title: String) -> Route {
+        Route.jsonRoute(
+            Route(
+                path: "/chat",
+                method: "POST",
+                body: try? JSONSerialization.data(
+                    withJSONObject: [
+                        "title": title
+                    ]
+                )
+            )
+        )
+    }
+
+    static func getList() -> Route {
+        Route.jsonRoute(
+            Route(
+                path: "/chat",
+                method: "GET"
+            )
+        )
+    }
+
+    static func get(chatID: String) -> Route {
+        Route.jsonRoute(
+            Route(
+                path: "/chat/\(chatID)",
+                method: "GET"
+            )
+        )
+    }
+
+    static func messages(chatID: String) -> Route {
+        Route.jsonRoute(
+            Route(
+                path: "/chat/\(chatID)/messages",
+                method: "GET"
+            )
+        )
+    }
+}
+
+enum AIRoutes {
+    static func answer(_ query: String, chatID: String) -> Route {
+        Route.jsonRoute(
+            Route(
+                path: "/ai/get-answer/\(chatID)/\(query)"
+            )
         )
     }
 }

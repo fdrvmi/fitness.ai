@@ -82,7 +82,9 @@ final class SignUpViewModel {
             AuthRoutes.signUp(
                 username: name,
                 email: email,
-                password: password
+                password: password,
+                weight: weight ?? 0.0,
+                height: height ?? 0.0
             )
         )
 
@@ -100,7 +102,7 @@ final class SignUpViewModel {
 
     private func makeSignIn(email: String, password: String) async {
         let result = try? await request(
-            AuthRoutes.login(username: email, password: password)
+            AuthRoutes.login(email: email, password: password)
         )
 
         guard let result, let data = try? JSONDecoder().decode(LoginResponse.self, from: result.0) else {

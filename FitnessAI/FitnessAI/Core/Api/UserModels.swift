@@ -9,7 +9,6 @@ import Foundation
 
 struct User: Codable, Equatable {
     let id: String
-    let username: String
     let email: String
     let fullName: String
     let lastOnlineTime: Date?
@@ -35,7 +34,6 @@ struct LoginResponse: Codable, Equatable {
 extension User {
     static func mock(
         id: String = UUID().uuidString,
-        username: String = "mock_username",
         email: String = "mock_email@example.com",
         fullName: String = "Mock User",
         lastOnlineTime: Date? = Date(),
@@ -48,7 +46,6 @@ extension User {
     ) -> User {
         return User(
             id: id,
-            username: username,
             email: email,
             fullName: fullName,
             lastOnlineTime: lastOnlineTime,
